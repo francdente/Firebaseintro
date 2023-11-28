@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import android.Manifest;
 
+import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -12,7 +13,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -43,19 +46,21 @@ public class MainActivity extends AppCompatActivity {
 
         syncButton.setOnClickListener( view -> {
             Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+
             ContentResolver cr = getContentResolver();
             Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
 
             myContact myContact = new myContact();
             String[] projection = new String[] {
                     ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-                    ContactsContract.CommonDataKinds.Phone.NUMBER
+                    ContactsContract.CommonDataKinds.Phone.NUMBER,
+                    ContactsContract.CommonDataKinds.Email.ADDRESS
             };
 
             Cursor names = getContentResolver().query(uri, projection, null,null,null);
             int indexName = names.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
             int indexNumber = names.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-
+            int indexEmail = names.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS);
 
             //this is used in order to not have duplicated contacts everytime we sync the contacts
             myRef.setValue(null);
@@ -65,6 +70,13 @@ public class MainActivity extends AppCompatActivity {
             do{
                 myContact.setName(names.getString(indexName));
                 myContact.setPhoneNumber(names.getString(indexNumber));
+
+                if (!names.isNull(indexEmail)) {
+                    myContact.setEmail(names.getString(indexEmail));
+                } else {
+                    myContact.setEmail(""); // or handle null case as per your requirement
+                }
+
                 String key = myRef.push().getKey();
                 myRef.child(key).setValue(myContact);
             }
@@ -75,6 +87,34 @@ public class MainActivity extends AppCompatActivity {
         final Button deleteButton = (Button) findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(view -> {
             myRef.setValue(null);
+        });
+
+        final Button addButton = (Button) findViewById(R.id.addButton);
+
+        Dialog dialog = new Dialog(MainActivity.this);
+        addButton.setOnClickListener(view ->{
+                dialog.setContentView(R.layout.dialog);
+                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                Button submit = dialog.findViewById(R.id.submit);
+                Button close = dialog.findViewById(R.id.close);
+
+                submit.setOnClickListener(v ->{
+                    String name = String.valueOf(((EditText) dialog.findViewById(R.id.name)).getText());
+                    String phone = String.valueOf(((EditText) dialog.findViewById(R.id.phone)).getText());
+                    myContact contact = new myContact();
+                    contact.setName(name);
+                    contact.setPhoneNumber(phone);
+                    String key = myRef.push().getKey();
+                    myRef.child(key).setValue(contact);
+                    dialog.dismiss();
+                });
+
+                close.setOnClickListener(v ->{
+                    dialog.dismiss();
+                 });
+                dialog.show();
+
         });
 
 

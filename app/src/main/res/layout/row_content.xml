@@ -80,6 +80,14 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Call"
+        android:id="@+id/call"
+        android:layout_gravity="end">
+    </Button>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Delete"
         android:id="@+id/delete"
         android:layout_gravity="end">

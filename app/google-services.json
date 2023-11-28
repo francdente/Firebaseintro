@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1040003843379",
+    "project_id": "fir-intro-a5c54",
+    "storage_bucket": "fir-intro-a5c54.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1040003843379:android:ab16e8ca596b2b71b7ea46",
+        "android_client_info": {
+          "package_name": "fr.eurecom.firebaseintro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUwVemaMSCJqtPfeFOteQVzvI3-W7NuLU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

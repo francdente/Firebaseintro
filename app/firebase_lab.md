@@ -177,6 +177,7 @@ addButton.setOnClickListener(view ->{
 - Authentication: Users can sign in using various authentication providers like Google, Facebook, Twitter, and others, allowing the convenient to conveniently access the application without creating new credentials.
 - Offline Support: Firebase includes offline data support, enabling users to access certain features of the application even when they are not connected to the internet.
 - Push Notifications: Firebase Cloud Messaging (FCM) allows developers to send push notifications to users, keeping them engaged and informed about updates or relevant information.
+  
 **Advantages for the developer:**
 - Easy Development: Firebase offers a set of tools and services that simplify the development process, like authentication, real-time database, cloud functions.
 - Real-time Database: Firebase's NoSQL real-time database allows developers to build responsive applications by synchronizing data in real time across clients, without much effort.
